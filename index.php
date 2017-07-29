@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -33,106 +34,38 @@
     <div class="container">
         <div class="row">
             <div class="col-md-6">
-                <h1 class="display-4 text-center mb-3">Check My Parcel</h1>
-                <form method ="POST">
-                    <div class="form-group">
-                        <input id="lbsInput" type="text" class="form-control form-control-lg" placeholder="Enter Tracking Number">
+                <h1 class="display-4 text-center mb-4">Check My Parcel</h1>
+                <form method ="POST" action="check.php">
+                    <div class="input-group mb-2">
+                        <input id="lbsInput" type="text" name="lbsinput" class="form-control form-control-lg" placeholder="Enter Tracking Number">
+                        <i class = "fa fa-btn fa-check"><button type ="submit" name= "submit" class = "btn btn-lg btn-primary">Go!</button></i>
                     </div>
                 </form>
                 <div id="output">
-                    <a id="modal1" data-toggle="modal" data-target="#myModal3" data-id="ISBN564541">
-                        <div class="card card-primary mb-2">
-                            <div class="card-block">
-                                <h4>Pos Laju</h4>
-                             </div>
+                    <div class="card card-primary mb-2">
+                        <div class="card-block">
+                            <h4>Pos Laju</h4>
+                            <p>e.g: <strong>EN824328835MY</strong></p>
                         </div>
-                    </a>
-                    <a href="gapi.php">
-                        <div class="card card-success mb-2">
-                            <div class="card-block">
-                                <h4>GD Express / GDex</h4>
-                            </div>
+                    </div>
+                    <div class="card card-success mb-2">
+                        <div class="card-block">
+                            <h4>GD Express / GDex</h4>
+                            <p>e.g: <strong>4932890981</strong></p>
                         </div>
-                    <a href="sapi.php">
-                        <div class="card card-danger mb-2">
-                            <div class="card-block">
-                                <h4>SkyNet Express</h4>
-                            </div>
+                    </div>
+                    <div class="card card-danger mb-2">
+                        <div class="card-block">
+                            <h4>SkyNet Express</h4>
+                            <p>e.g: <strong>1334652346</strong></p>
                         </div>
-                    </a>
+                    </div>
+                    
                 </div>
             </div>
         </div>
     </div>
-     <!-- Modal3 start-->
-    <div class="modal fade" id="myModal3" role="dialog">
-        <div class="modal-dialog modal-lg">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-            
-                <div class="modal-body">
-                    <?php
-                    $trackingNo = "EN824328835MY"; # your tracking number
-                    $url = "http://localhost/checkmyparcel/plapi.php?trackingNo=".$trackingNo; # the full URL to the API
-                    $getdata = file_get_contents($url); # use files_get_contents() to fetch the data, but you can also use cURL, or javascript/jquery json
-                    $parsed = json_decode($getdata,true); # decode the json into array. set true to return array instead of object
-
-                    $httpcode = $parsed["http_code"];
-                    $message = $parsed["message"];
-                    if($message == "Record Found" && $httpcode == 200)
-                    {
-                    ?>
-                        </br>
-                        <table class="table table-striped table-condensed">
-                            <thead>
-                                <tr>
-                                    <th>Date/Time</th>
-                                    <th>Process</th>
-                                    <th>Location</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <?php
-
-                                    # iterate through the array
-                                    for($i=0;$i<count($parsed['data']);$i++)
-                                    {
-                                      # access each items in the JSON
-                                      echo "
-                                        <tr>
-                                          <td>".$parsed['data'][$i]['date_time']."</td>
-                                          <td>".$parsed['data'][$i]['process']."</td>
-                                          <td>".$parsed['data'][$i]['event']."</td>
-                                        </tr>
-                                        ";
-                                    }
-                              }else {
-                                echo $message . "<br>";
-                                # code...
-                              }
-                              ?>
-
-                            </tbody>
-                        </table>
-
-                </div>
-                <div class="modal-footer">
-
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-
-                </div>
-            </div>
-
-        </div>
-         <!-- Modal3 ends-->
-    <script>
-        document.getElementById('lbsInput').addEventListener('input', function(e){
-            let lbs = e.target.value;
-            document.getElementById('modal1').innerHTML = lbs*1000;
-           
-        });
-    </script>
     <!-- jQuery first, then Tether, then Bootstrap JS. -->
     <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js"></script>
